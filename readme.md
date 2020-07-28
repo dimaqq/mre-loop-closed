@@ -2,9 +2,24 @@
 
 Somehow latest `pytest`, `pytest-asyncio` and `flaky` just can't live happily together.
 
-When a flaky test repeatedly fails, an error is reported instead of failure.
+When a flaky test repeatedly fails, an error `RuntimeError: Event loop is closed` is reported instead of failure.
 
+#### Test case
+
+```py
+import pytest
+from flaky import flaky
+
+pytestmark = pytest.mark.asyncio
+
+@flaky
+async def test_foo():
+    assert False
 ```
+
+#### Error
+
+```py
 > pytest test_repro.py
 ========================================================== test session starts ===========================================================
 platform darwin -- Python 3.8.5, pytest-6.0.0, py-1.9.0, pluggy-0.13.1
